@@ -4,7 +4,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>学习路径画布</title>
-    <script type="module" crossorigin src="./assets/index-CetlzhQm.js"></script>
+    <script data-review-bridge>
+  /* 双击「复习与检测」节点（类型徽标为「复」）→ 新窗口打开复习模块 */
+  document.addEventListener('dblclick', function (e) {
+    if (!(e.target instanceof Element)) return;
+    var card = e.target.closest('.knowledge-node');
+    if (!card || !card.classList.contains('is-review')) return;
+    window.open('review/index.html#/review-test', '_blank');
+  });
+</script>
+<script data-offscreen-polyfill>
+  if (typeof window.OffscreenCanvas === 'undefined') {
+    window.OffscreenCanvas = class {
+      constructor(w, h) {
+        this.width = w; this.height = h;
+        var c = document.createElement('canvas'); c.width = w; c.height = h;
+        this.__c = c;
+      }
+      getContext(t) { return this.__c.getContext(t); }
+      transferToImageBitmap() { return null; }
+      convertToBlob(o) { var self = this; return new Promise(function (r) { self.__c.toBlob(r, o && o.type, o && o.quality); }); }
+    };
+  }
+  if (window.HTMLCanvasElement && !window.HTMLCanvasElement.prototype.transferControlToOffscreen) {
+    window.HTMLCanvasElement.prototype.transferControlToOffscreen = function () {
+      var c = this;
+      return {
+        get width() { return c.width; }, set width(v) { c.width = v; },
+        get height() { return c.height; }, set height(v) { c.height = v; },
+        getContext: function (t, o) { return c.getContext(t, o); },
+        style: c.style,
+        addEventListener: function () { return c.addEventListener.apply(c, arguments); },
+        removeEventListener: function () { return c.removeEventListener.apply(c, arguments); },
+        getBoundingClientRect: function () { return c.getBoundingClientRect(); },
+        toDataURL: function () { return c.toDataURL.apply(c, arguments); },
+        toBlob: function () { return c.toBlob.apply(c, arguments); }
+      };
+    };
+  }
+</script>
+<script type="module" crossorigin src="./assets/index-CetlzhQm.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/Constants-SPF2XdRE.js">
     <link rel="modulepreload" crossorigin href="./assets/MathUtils-Bqtix1pt.js">
     <link rel="modulepreload" crossorigin href="./assets/Utils-D3mp2DjU.js">
